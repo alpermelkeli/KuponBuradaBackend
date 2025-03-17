@@ -3,6 +3,7 @@ package com.kuponburada.KuponBurada.service.impl;
 import com.kuponburada.KuponBurada.dto.request.BrandRequest;
 import com.kuponburada.KuponBurada.dto.response.BrandDTO;
 import com.kuponburada.KuponBurada.entity.Brand;
+import com.kuponburada.KuponBurada.entity.Category;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
 import com.kuponburada.KuponBurada.service.BrandService;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,6 +50,24 @@ public class BrandServiceImpl implements BrandService {
                 .map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<BrandDTO> getRelatedBrands(Long id) {
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + id));
+
+        Set<Category> categories = brand.getCategories();
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<Brand> relatedBrands = brandRepository.findRelatedBrands(categories, id, pageable);
+
+        return relatedBrands.stream()
+                .map(brand1 -> modelMapper.map(brand1, BrandDTO.class))
+                .collect(Collectors.toList());
+
+    }
+
 
     @Override
     public BrandDTO createBrand(BrandRequest brandRequest) {

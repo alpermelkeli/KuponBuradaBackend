@@ -48,7 +48,7 @@ public class Coupon {
     private ZonedDateTime endDate;
 
     @ManyToOne
-    @JoinColumn(name = "brand_id")
+    @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
     @Column(name = "terms_conditions")
@@ -64,9 +64,6 @@ public class Coupon {
 
     @Column(name = "usage_count")
     private Integer usageCount = 0;
-
-    @Column(name = "success_rate", precision = 5, scale = 2)
-    private BigDecimal successRate;
 
     private boolean active = true;
 

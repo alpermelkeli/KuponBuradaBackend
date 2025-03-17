@@ -61,5 +61,8 @@ public class Brand {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Coupon> coupons = new HashSet<>();
+
+    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    private Set<Faq> faqs = new HashSet<>();
 }
 
