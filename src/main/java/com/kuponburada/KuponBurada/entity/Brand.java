@@ -27,6 +27,10 @@ public class Brand {
 
     private String description;
 
+    @Column(name = "is_popular")
+    private boolean isPopular = false;
+
+
     @Column(name = "logo_url")
     private String logoUrl;
 

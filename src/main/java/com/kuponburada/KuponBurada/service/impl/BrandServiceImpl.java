@@ -39,12 +39,15 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    public List<BrandDTO> getPopularBrands() {
+        return brandRepository.findByIsPopularTrue().stream()
+                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public BrandDTO createBrand(BrandRequest brandRequest) {
-        System.out.println("Request: " + brandRequest.getName()); // Debug line
-
         Brand brand = modelMapper.map(brandRequest, Brand.class);
-        System.out.println("Mapped Entity: " + brand.getName()); // Debug line
-
         Brand savedBrand = brandRepository.save(brand);
         return modelMapper.map(savedBrand, BrandDTO.class);
     }

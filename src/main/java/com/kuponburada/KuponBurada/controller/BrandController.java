@@ -39,6 +39,11 @@ public class BrandController {
         return ResponseEntity.ok(brandService.getAllBrands());
     }
 
+    @GetMapping("/popular")
+    public ResponseEntity<List<BrandDTO>> getPopularBrands() {
+        return ResponseEntity.ok(brandService.getPopularBrands());
+    }
+
     @PostMapping
     public ResponseEntity<BrandDTO> createBrand(@RequestBody BrandRequest brandRequest) {
         return new ResponseEntity<>(brandService.createBrand(brandRequest), HttpStatus.CREATED);
