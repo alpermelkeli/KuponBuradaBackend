@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +42,9 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public List<BrandDTO> getPopularBrands() {
-        return brandRepository.findByIsPopularTrue().stream()
+        Pageable pageable = PageRequest.of(0, 4);
+        List<Brand> popularBrands = brandRepository.findPopularBrands(pageable);
+        return popularBrands.stream()
                 .map(brand -> modelMapper.map(brand, BrandDTO.class))
                 .collect(Collectors.toList());
     }
