@@ -1,4 +1,4 @@
-package com.kuponburada.KuponBurada.models;
+package com.kuponburada.KuponBurada.entity;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;

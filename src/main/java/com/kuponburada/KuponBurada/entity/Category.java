@@ -1,11 +1,9 @@
-package com.kuponburada.KuponBurada.models;
-
+package com.kuponburada.KuponBurada.entity;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.*;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,9 +12,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name = "brands")
+@Table(name = "categories")
 @Data
-public class Brand {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +25,8 @@ public class Brand {
 
     private String description;
 
-    @Column(name = "logo_url")
-    private String logoUrl;
-
-    @Column(name = "website_url")
-    private String websiteUrl;
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @Column(nullable = false, unique = true, length = 100)
     private String slug;
@@ -46,19 +41,13 @@ public class Brand {
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "brand_categories",
-            joinColumns = @JoinColumn(name = "brand_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @ManyToMany(mappedBy = "categories")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Set<Category> categories = new HashSet<>();
+    private Set<Brand> brands = new HashSet<>();
 
-    @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "categories")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<Coupon> coupons = new HashSet<>();
 }
-
