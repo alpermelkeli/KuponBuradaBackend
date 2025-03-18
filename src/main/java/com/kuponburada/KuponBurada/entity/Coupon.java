@@ -54,16 +54,8 @@ public class Coupon {
     @Column(name = "terms_conditions")
     private String termsConditions;
 
-    private String url;
-
-    @Column(name = "is_verified")
-    private boolean isVerified = false;
-
-    @Column(name = "is_exclusive")
-    private boolean isExclusive = false;
-
-    @Column(name = "usage_count")
-    private Integer usageCount = 0;
+    //@Column(name = "usage_count")
+    //private Integer usageCount = 0;
 
     private boolean active = true;
 

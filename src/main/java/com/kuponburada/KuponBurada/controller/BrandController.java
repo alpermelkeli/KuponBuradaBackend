@@ -1,6 +1,8 @@
 package com.kuponburada.KuponBurada.controller;
 
-import com.kuponburada.KuponBurada.dto.response.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 import com.kuponburada.KuponBurada.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kuponburada.KuponBurada.dto.request.BrandRequest;
-import com.kuponburada.KuponBurada.dto.response.BrandDTO;
-import com.kuponburada.KuponBurada.service.BrandService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,12 +37,12 @@ public class BrandController {
     }
 
     @GetMapping("/popular")
-    public ResponseEntity<List<BrandDTO>> getPopularBrands() {
+        public ResponseEntity<List<PopularBrandDTO>> getPopularBrands() {
         return ResponseEntity.ok(brandService.getPopularBrands());
     }
 
     @GetMapping("/related-brands/{id}")
-    public ResponseEntity<List<BrandDTO>> getRelatedBrands(@PathVariable Long id){
+    public ResponseEntity<List<RelatedBrandDTO>> getRelatedBrands(@PathVariable Long id){
         return ResponseEntity.ok(brandService.getRelatedBrands(id));
     }
 

@@ -1,7 +1,9 @@
 package com.kuponburada.KuponBurada.service.impl;
 
 import com.kuponburada.KuponBurada.dto.request.BrandRequest;
-import com.kuponburada.KuponBurada.dto.response.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 import com.kuponburada.KuponBurada.entity.Brand;
 import com.kuponburada.KuponBurada.entity.Category;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
@@ -43,16 +45,21 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<BrandDTO> getPopularBrands() {
+    public List<PopularBrandDTO> getPopularBrands() {
         Pageable pageable = PageRequest.of(0, 4);
         List<Brand> popularBrands = brandRepository.findPopularBrands(pageable);
         return popularBrands.stream()
-                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .map(brand -> {
+                    PopularBrandDTO dto = modelMapper.map(brand, PopularBrandDTO.class);
+                    dto.setCouponCount(brand.getCoupons().size());
+                    return dto;
+                }
+                )
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<BrandDTO> getRelatedBrands(Long id) {
+    public List<RelatedBrandDTO> getRelatedBrands(Long id) {
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + id));
 
@@ -63,7 +70,7 @@ public class BrandServiceImpl implements BrandService {
         List<Brand> relatedBrands = brandRepository.findRelatedBrands(categories, id, pageable);
 
         return relatedBrands.stream()
-                .map(brand1 -> modelMapper.map(brand1, BrandDTO.class))
+                .map(brand1 -> modelMapper.map(brand1, RelatedBrandDTO.class))
                 .collect(Collectors.toList());
 
     }

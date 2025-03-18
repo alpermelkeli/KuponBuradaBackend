@@ -1,16 +1,17 @@
 package com.kuponburada.KuponBurada.service;
 
 import com.kuponburada.KuponBurada.dto.request.BrandRequest;
-import com.kuponburada.KuponBurada.dto.response.BrandDTO;
-import com.kuponburada.KuponBurada.entity.Brand;
+import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 
 import java.util.List;
 
 public interface BrandService {
     BrandDTO getBrandById(Long id);
     List<BrandDTO> getAllBrands();
-    List<BrandDTO> getPopularBrands();
-    List<BrandDTO> getRelatedBrands(Long id);
+    List<PopularBrandDTO> getPopularBrands();
+    List<RelatedBrandDTO> getRelatedBrands(Long id);
     BrandDTO createBrand(BrandRequest brandRequest);
     BrandDTO updateBrand(Long id, BrandRequest brandRequest);
     void deleteBrand(Long id);

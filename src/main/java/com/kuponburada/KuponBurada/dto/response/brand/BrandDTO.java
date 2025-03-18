@@ -1,5 +1,6 @@
-package com.kuponburada.KuponBurada.dto.response;
+package com.kuponburada.KuponBurada.dto.response.brand;
 
+import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.entity.Coupon;
 import com.kuponburada.KuponBurada.entity.Faq;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class BrandDTO {
     private boolean isPopular;
     private String logoUrl;
     private String websiteUrl;
-    private List<Coupon> coupons;
+    private List<CouponDTO> coupons;
     private List<Faq> faqs;
 }
 
