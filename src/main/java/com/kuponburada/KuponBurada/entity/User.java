@@ -42,6 +42,16 @@ public class User {
 
     private boolean active = true;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_followed_brands",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "brand_id")
+    )
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Brand> followedBrands = new HashSet<>();
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private ZonedDateTime createdAt;

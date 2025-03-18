@@ -57,6 +57,12 @@ public class Brand {
     @ToString.Exclude
     private Set<Category> categories = new HashSet<>();
 
+    @ManyToMany(mappedBy = "followedBrands")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<User> followers = new HashSet<>();
+
+
     @OneToMany(mappedBy = "brand", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
