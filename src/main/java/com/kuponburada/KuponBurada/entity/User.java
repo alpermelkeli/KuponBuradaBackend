@@ -1,22 +1,28 @@
 package com.kuponburada.KuponBurada.entity;
 
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
 @Data
-public class User {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +31,8 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;
-
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "first_name", length = 50)
     private String firstName;
@@ -37,8 +40,9 @@ public class User {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Column(length = 20)
-    private String role = "USER";
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
 
     private boolean active = true;
 
@@ -64,4 +68,9 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Set<UserCouponUsage> couponUsages = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
 }
