@@ -31,15 +31,11 @@ public class Coupon {
     @Column(length = 50)
     private String code;
 
-    @Column(name = "discount_value", precision = 10, scale = 2)
-    private BigDecimal discountValue;
 
     @Column(name = "discount_type", nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private DiscountType discountType;
 
-    @Column(name = "minimum_purchase", precision = 10, scale = 2)
-    private BigDecimal minimumPurchase = BigDecimal.ZERO;
 
     @Column(name = "start_date", nullable = false)
     private ZonedDateTime startDate;

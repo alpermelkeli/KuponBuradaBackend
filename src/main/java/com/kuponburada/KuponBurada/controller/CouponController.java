@@ -2,6 +2,7 @@ package com.kuponburada.KuponBurada.controller;
 
 import com.kuponburada.KuponBurada.dto.request.CouponRequest;
 import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
+import com.kuponburada.KuponBurada.dto.response.coupon.LastAddedCouponDTO;
 import com.kuponburada.KuponBurada.entity.Coupon;
 import com.kuponburada.KuponBurada.service.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class CouponController {
     }
 
     @GetMapping("/last-added")
-    public ResponseEntity<List<CouponDTO>> getLastAddedCoupons() {
+    public ResponseEntity<List<LastAddedCouponDTO>> getLastAddedCoupons() {
         return ResponseEntity.ok(couponService.getLastAddedCoupons());
     }
 

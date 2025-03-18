@@ -7,15 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class CouponDTO {
+@NoArgsConstructor
+public class LastAddedCouponDTO {
     private Long id;
     private String title;
-    private String description;
     private String code;
-    private String discountType;
-    private String startDate;
+    private String category;
+    private String brandLogoUrl;
     private String endDate;
-    private String termsConditions;
 }
