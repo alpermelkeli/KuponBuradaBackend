@@ -43,9 +43,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-
-    private boolean active = true;
-
     @ManyToMany
     @JoinTable(
             name = "user_followed_brands",
