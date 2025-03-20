@@ -22,6 +22,7 @@ public class BrandDTO {
     private String logoUrl;
     private String websiteUrl;
     private List<CouponDTO> coupons;
+    private Integer followerCount;
     private List<Faq> faqs;
 }
 

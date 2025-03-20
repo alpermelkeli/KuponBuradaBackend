@@ -2,11 +2,16 @@ package com.kuponburada.KuponBurada.service.impl;
 
 import com.kuponburada.KuponBurada.dto.request.BrandRequest;
 import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.FollowedBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 import com.kuponburada.KuponBurada.entity.Brand;
 import com.kuponburada.KuponBurada.entity.Category;
+import com.kuponburada.KuponBurada.entity.User;
+import com.kuponburada.KuponBurada.entity.UserBrandFollow;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
+import com.kuponburada.KuponBurada.repository.UserBrandFollowRepository;
+import com.kuponburada.KuponBurada.repository.UserRepository;
 import com.kuponburada.KuponBurada.service.BrandService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +33,12 @@ public class BrandServiceImpl implements BrandService {
     private BrandRepository brandRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserBrandFollowRepository userBrandFollowRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
     @Override
@@ -40,7 +51,12 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<BrandDTO> getAllBrands() {
         return brandRepository.findAll().stream()
-                .map(brand -> modelMapper.map(brand, BrandDTO.class))
+                .map(brand ->{
+                            BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
+                            dto.setFollowerCount(brand.getFollowers().size());
+                            return dto;
+                        }
+                )
                 .collect(Collectors.toList());
     }
 
@@ -74,6 +90,44 @@ public class BrandServiceImpl implements BrandService {
                 .collect(Collectors.toList());
 
     }
+
+    @Override
+    public List<FollowedBrandDTO> getFollowedBrands(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+
+        return user.getFollowedBrands().stream()
+                .map(userBrandFollow -> {
+                    FollowedBrandDTO dto = modelMapper.map(userBrandFollow.getBrand(), FollowedBrandDTO.class);
+                    dto.setFollowedAt(userBrandFollow.getFollowedAt().toString());
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void followBrand(String username, Long id) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + id));
+
+
+        boolean alreadyFollowing = user.getFollowedBrands().stream()
+                .anyMatch(ubf -> ubf.getBrand().equals(brand));
+
+        if (!alreadyFollowing) {
+            UserBrandFollow follow = UserBrandFollow.builder()
+                    .user(user)
+                    .brand(brand)
+                    .build();
+
+            user.getFollowedBrands().add(follow);
+            userBrandFollowRepository.save(follow); // Yeni ara tablo kaydını kaydet
+        }
+    }
+
 
 
     @Override

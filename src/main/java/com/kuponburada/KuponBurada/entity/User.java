@@ -43,15 +43,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_followed_brands",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "brand_id")
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Set<Brand> followedBrands = new HashSet<>();
+    private Set<UserBrandFollow> followedBrands = new HashSet<>();
+
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

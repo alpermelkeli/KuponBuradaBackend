@@ -1,12 +1,16 @@
 package com.kuponburada.KuponBurada.controller;
 
 import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.FollowedBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 import com.kuponburada.KuponBurada.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +48,29 @@ public class BrandController {
     @GetMapping("/related-brands/{id}")
     public ResponseEntity<List<RelatedBrandDTO>> getRelatedBrands(@PathVariable Long id){
         return ResponseEntity.ok(brandService.getRelatedBrands(id));
+    }
+
+    @GetMapping("/followed-brands")
+    public ResponseEntity<List<FollowedBrandDTO>> getFollowedBrands() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String username = userDetails.getUsername();
+
+        return ResponseEntity.ok(brandService.getFollowedBrands(username));
+    }
+
+    @PostMapping("/follow-brand/{id}")
+    public ResponseEntity<Void> followBrand(@PathVariable Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        String username = userDetails.getUsername();
+
+        brandService.followBrand(username,id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
