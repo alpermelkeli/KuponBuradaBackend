@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.isPopular = true ORDER BY c.coupons.size DESC")
+    @Query("SELECT c FROM Category c WHERE c.isPopular = true")
     List<Category> findPopularCategories(Pageable pageable);
 }
