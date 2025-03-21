@@ -5,6 +5,7 @@ import com.kuponburada.KuponBurada.dto.response.brand.FollowedBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
 import com.kuponburada.KuponBurada.service.BrandService;
+import com.kuponburada.KuponBurada.util.SecurityContextHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
+    @Autowired
+    private SecurityContextHandler securityContextHandler;
+
     @GetMapping("/{id}")
     public ResponseEntity<BrandDTO> getBrandById(@PathVariable Long id) {
         return ResponseEntity.ok(brandService.getBrandById(id));
@@ -52,24 +56,34 @@ public class BrandController {
 
     @GetMapping("/followed-brands")
     public ResponseEntity<List<FollowedBrandDTO>> getFollowedBrands() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!securityContextHandler.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = securityContextHandler.getCurrentUserId();
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        String username = userDetails.getUsername();
-
-        return ResponseEntity.ok(brandService.getFollowedBrands(username));
+        return ResponseEntity.ok(brandService.getFollowedBrands(userId));
     }
 
     @PostMapping("/follow-brand/{id}")
     public ResponseEntity<Void> followBrand(@PathVariable Long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(!securityContextHandler.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = securityContextHandler.getCurrentUserId();
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        brandService.followBrand(userId,id);
+        return ResponseEntity.noContent().build();
+    }
 
-        String username = userDetails.getUsername();
+    @PostMapping("/unfollow-brand/{id}")
+    public ResponseEntity<Void> unfollowBrand(@PathVariable Long id) {
+        if(!securityContextHandler.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = securityContextHandler.getCurrentUserId();
 
-        brandService.followBrand(username,id);
+        brandService.unfollowBrand(userId,id);
+
         return ResponseEntity.noContent().build();
     }
 

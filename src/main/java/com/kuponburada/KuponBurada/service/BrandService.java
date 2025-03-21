@@ -13,8 +13,9 @@ public interface BrandService {
     List<BrandDTO> getAllBrands();
     List<PopularBrandDTO> getPopularBrands();
     List<RelatedBrandDTO> getRelatedBrands(Long id);
-    List<FollowedBrandDTO> getFollowedBrands(String username);
-    void followBrand(String username, Long id);
+    List<FollowedBrandDTO> getFollowedBrands(Long userId);
+    void followBrand(Long userId, Long id);
+    void unfollowBrand(Long userId, Long id);
     BrandDTO createBrand(BrandRequest brandRequest);
     BrandDTO updateBrand(Long id, BrandRequest brandRequest);
     void deleteBrand(Long id);

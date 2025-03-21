@@ -92,9 +92,9 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public List<FollowedBrandDTO> getFollowedBrands(String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+    public List<FollowedBrandDTO> getFollowedBrands(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with userId: " + userId));
 
         return user.getFollowedBrands().stream()
                 .map(userBrandFollow -> {
@@ -106,9 +106,9 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public void followBrand(String username, Long id) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + username));
+    public void followBrand(Long userId, Long id) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with userId: " + userId));
 
         Brand brand = brandRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + id));
@@ -124,10 +124,26 @@ public class BrandServiceImpl implements BrandService {
                     .build();
 
             user.getFollowedBrands().add(follow);
-            userBrandFollowRepository.save(follow); // Yeni ara tablo kaydını kaydet
+            userBrandFollowRepository.save(follow);
         }
     }
 
+    @Override
+    public void unfollowBrand(Long userId, Long id) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with userId: " + userId));
+
+        Brand brand = brandRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + id));
+
+        UserBrandFollow follow = user.getFollowedBrands().stream()
+                .filter(ubf -> ubf.getBrand().equals(brand))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("User is not following the brand with id: " + id));
+
+        user.getFollowedBrands().remove(follow);
+        userBrandFollowRepository.delete(follow);
+    }
 
 
     @Override
