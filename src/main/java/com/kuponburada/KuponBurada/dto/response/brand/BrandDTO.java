@@ -18,6 +18,7 @@ public class BrandDTO {
     private Long id;
     private String name;
     private String description;
+    private List<String> categoryNames;
     private boolean isPopular;
     private String logoUrl;
     private String websiteUrl;

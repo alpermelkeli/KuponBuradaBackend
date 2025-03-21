@@ -30,6 +30,9 @@ public class Category {
 
     private boolean active = true;
 
+    @Column(name = "is_popular")
+    private boolean isPopular = false;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private ZonedDateTime createdAt;
@@ -43,8 +46,12 @@ public class Category {
     @ToString.Exclude
     private Set<Brand> brands = new HashSet<>();
 
-    @ManyToMany(mappedBy = "categories")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Coupon> coupons = new HashSet<>();
+
+    public Set<Coupon> getCoupons() {
+        Set<Coupon> coupons = new HashSet<>();
+        for (Brand brand : brands) {
+            coupons.addAll(brand.getCoupons());
+        }
+        return coupons;
+    }
 }

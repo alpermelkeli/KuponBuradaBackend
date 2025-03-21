@@ -63,15 +63,9 @@ public class Coupon {
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "coupon_categories",
-            joinColumns = @JoinColumn(name = "coupon_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Category> categories = new HashSet<>();
+    public Set<Category> getCategories() {
+        return brand != null ? brand.getCategories() : Set.of();
+    }
 
     public enum DiscountType {
         PERCENTAGE, FIXED_AMOUNT

@@ -54,6 +54,9 @@ public class BrandServiceImpl implements BrandService {
                 .map(brand ->{
                             BrandDTO dto = modelMapper.map(brand, BrandDTO.class);
                             dto.setFollowerCount(brand.getFollowers().size());
+                            dto.setCategoryNames(brand.getCategories().stream()
+                                    .map(Category::getName)
+                                    .collect(Collectors.toList()));
                             return dto;
                         }
                 )

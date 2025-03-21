@@ -6,6 +6,7 @@ import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.dto.response.coupon.LastAddedCouponDTO;
 import com.kuponburada.KuponBurada.entity.Brand;
+import com.kuponburada.KuponBurada.entity.Category;
 import com.kuponburada.KuponBurada.entity.Coupon;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
 import com.kuponburada.KuponBurada.repository.CouponRepository;
@@ -47,7 +48,9 @@ public class CouponServiceImpl implements CouponService {
     public CouponDTO getCouponById(Long id) {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Coupon not found with id: " + id));
-        return modelMapper.map(coupon, CouponDTO.class);
+        CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
+        System.out.println("CategoryNames: " + coupon.getCategories().stream().map(Category::getName).toList());
+        return couponDTO;
     }
 
     @Override
@@ -71,6 +74,7 @@ public class CouponServiceImpl implements CouponService {
             Brand brand = brandRepository.findById(couponRequest.getBrandId())
                     .orElseThrow(() -> new EntityNotFoundException("Brand not found with id: " + couponRequest.getBrandId()));
             coupon.setBrand(brand);
+
         }
         Coupon savedCoupon = couponRepository.save(coupon);
 

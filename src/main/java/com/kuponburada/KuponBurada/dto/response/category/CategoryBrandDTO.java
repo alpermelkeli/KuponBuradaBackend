@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryDTO {
+public class CategoryBrandDTO {
     private Long id;
     private String name;
-    private String description;
-    private String imageUrl;
-    private Integer couponCount;
 }
