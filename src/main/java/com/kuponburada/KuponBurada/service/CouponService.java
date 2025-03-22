@@ -1,6 +1,6 @@
 package com.kuponburada.KuponBurada.service;
 
-import com.kuponburada.KuponBurada.dto.request.CouponRequest;
+import com.kuponburada.KuponBurada.dto.request.coupon.CouponRequest;
 import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.dto.response.coupon.LastAddedCouponDTO;
 

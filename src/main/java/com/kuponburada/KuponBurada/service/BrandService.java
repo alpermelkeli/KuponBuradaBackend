@@ -1,6 +1,6 @@
 package com.kuponburada.KuponBurada.service;
 
-import com.kuponburada.KuponBurada.dto.request.BrandRequest;
+import com.kuponburada.KuponBurada.dto.request.brand.BrandRequest;
 import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.FollowedBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;

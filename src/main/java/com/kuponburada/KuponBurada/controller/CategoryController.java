@@ -1,6 +1,6 @@
 package com.kuponburada.KuponBurada.controller;
 
-import com.kuponburada.KuponBurada.dto.request.CategoryRequest;
+import com.kuponburada.KuponBurada.dto.request.category.CategoryRequest;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryDTO;
 import com.kuponburada.KuponBurada.dto.response.category.PopularCategoryDTO;

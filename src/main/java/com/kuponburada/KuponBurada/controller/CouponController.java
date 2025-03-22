@@ -1,16 +1,12 @@
 package com.kuponburada.KuponBurada.controller;
 
-import com.kuponburada.KuponBurada.dto.request.CouponRequest;
+import com.kuponburada.KuponBurada.dto.request.coupon.CouponRequest;
 import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.dto.response.coupon.LastAddedCouponDTO;
-import com.kuponburada.KuponBurada.entity.Coupon;
 import com.kuponburada.KuponBurada.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.kuponburada.KuponBurada.dto.request;
+package com.kuponburada.KuponBurada.dto.request.coupon;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.kuponburada.KuponBurada.service.impl;
 
-import com.kuponburada.KuponBurada.dto.request.CategoryRequest;
+import com.kuponburada.KuponBurada.dto.request.category.CategoryRequest;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryDTO;
 import com.kuponburada.KuponBurada.dto.response.category.PopularCategoryDTO;
@@ -9,7 +9,6 @@ import com.kuponburada.KuponBurada.entity.Category;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
 import com.kuponburada.KuponBurada.repository.CategoryRepository;
 import com.kuponburada.KuponBurada.service.CategoryService;
-import org.hibernate.query.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

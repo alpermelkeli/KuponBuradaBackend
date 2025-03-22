@@ -1,4 +1,4 @@
-package com.kuponburada.KuponBurada.dto.request;
+package com.kuponburada.KuponBurada.dto.request.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
