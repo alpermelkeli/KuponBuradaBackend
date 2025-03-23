@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -57,7 +55,18 @@ public class NotificationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteNotification(@PathVariable){
+    public ResponseEntity<Object> deleteNotification(@PathVariable Long id){
+        notificationService.deleteNotification(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<Object> deleteAllNotifications(){
+        if(!securityContextHandler.isAuthenticated()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        Long userId = securityContextHandler.getCurrentUserId();
+        notificationService.deleteAllNotifications(userId);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

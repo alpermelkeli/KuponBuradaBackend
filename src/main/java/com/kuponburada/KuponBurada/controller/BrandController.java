@@ -1,9 +1,6 @@
 package com.kuponburada.KuponBurada.controller;
 
-import com.kuponburada.KuponBurada.dto.response.brand.BrandDTO;
-import com.kuponburada.KuponBurada.dto.response.brand.FollowedBrandDTO;
-import com.kuponburada.KuponBurada.dto.response.brand.PopularBrandDTO;
-import com.kuponburada.KuponBurada.dto.response.brand.RelatedBrandDTO;
+import com.kuponburada.KuponBurada.dto.response.brand.*;
 import com.kuponburada.KuponBurada.service.BrandService;
 import com.kuponburada.KuponBurada.util.SecurityContextHandler;
 import lombok.RequiredArgsConstructor;

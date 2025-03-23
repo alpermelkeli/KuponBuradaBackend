@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationRequest {
+    private String username;
     private String title;
     private String message;
     private String notificationType;

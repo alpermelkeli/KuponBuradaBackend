@@ -4,6 +4,8 @@ import com.kuponburada.KuponBurada.dto.request.category.CategoryRequest;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryDTO;
 import com.kuponburada.KuponBurada.dto.response.category.PopularCategoryDTO;
+import com.kuponburada.KuponBurada.dto.response.coupon.CategoryCouponsDTO;
+import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,12 @@ public class CategoryController {
     public ResponseEntity<List<CategoryBrandDTO>> getCategoryBrands(@PathVariable Long id){
         return ResponseEntity.ok(categoryService.getCategoryBrands(id));
     }
+
+    @GetMapping("/{id}/coupons")
+    public ResponseEntity<List<CategoryCouponsDTO>> getCategoryCoupons(@PathVariable Long id){
+        return ResponseEntity.ok(categoryService.getCategoryCoupons(id));
+    }
+
     @GetMapping("/popular")
     public ResponseEntity<List<PopularCategoryDTO>> getPopularCategories() {
         return ResponseEntity.ok(categoryService.getPopularCategories());

@@ -4,6 +4,8 @@ import com.kuponburada.KuponBurada.dto.request.category.CategoryRequest;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryBrandDTO;
 import com.kuponburada.KuponBurada.dto.response.category.CategoryDTO;
 import com.kuponburada.KuponBurada.dto.response.category.PopularCategoryDTO;
+import com.kuponburada.KuponBurada.dto.response.coupon.CategoryCouponsDTO;
+import com.kuponburada.KuponBurada.dto.response.coupon.CouponDTO;
 import com.kuponburada.KuponBurada.entity.Brand;
 import com.kuponburada.KuponBurada.entity.Category;
 import com.kuponburada.KuponBurada.repository.BrandRepository;
@@ -88,6 +90,22 @@ public class CategoryServiceImpl implements CategoryService {
 
         return category.getBrands().stream().map(
                 brand -> modelMapper.map(brand, CategoryBrandDTO.class)
+        ).collect(Collectors.toList()
+        );
+    }
+
+    @Override
+    public List<CategoryCouponsDTO> getCategoryCoupons(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
+        return category.getCoupons().stream().map(
+                coupon -> {
+                    CategoryCouponsDTO dto = modelMapper.map(coupon, CategoryCouponsDTO.class);
+                    dto.setBrandName(coupon.getBrand().getName());
+                    dto.setBrandId(coupon.getBrand().getId());
+                    dto.setLogoUrl(coupon.getBrand().getLogoUrl());
+                    return dto;
+                }
         ).collect(Collectors.toList()
         );
     }
