@@ -7,7 +7,7 @@ import com.kuponburada.KuponBurada.entity.Notification;
 import java.util.List;
 
 public interface NotificationService {
-    Notification createNotification(NotificationRequest notificationRequest);
+    NotificationDTO createNotification(NotificationRequest notificationRequest);
     List<NotificationDTO> getNotifications(Long userId);
     void readNotification(Long notificationId);
     void readAllNotifications(Long userId);

@@ -47,7 +47,7 @@ public class NotificationController {
     }
 
     @PostMapping
-    public ResponseEntity<Notification> createNotification(@RequestBody NotificationRequest notificationRequest){
+    public ResponseEntity<NotificationDTO> createNotification(@RequestBody NotificationRequest notificationRequest){
         if (notificationRequest == null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

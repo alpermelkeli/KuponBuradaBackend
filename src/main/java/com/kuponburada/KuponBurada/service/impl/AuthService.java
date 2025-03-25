@@ -27,14 +27,15 @@ public class AuthService {
     private final ModelMapper modelMapper;
 
     public AuthResponse register(RegisterRequest request) {
-        var exists = userRepository.existsByUsername(request.getEmail());
+        var exists = userRepository.existsByUsername(request.getUsername());
 
         if (exists) {
             throw new RuntimeException("User already exists");
         }
 
         var user = User.builder()
-                .username(request.getEmail())
+                .username(request.getUsername())
+                .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
@@ -51,12 +52,14 @@ public class AuthService {
     }
 
     public AuthResponse login(AuthRequest request) {
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow();
+
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(user.getUsername(), request.getPassword())
         );
         
-        var user = userRepository.findByUsername(request.getEmail())
-                .orElseThrow();
+
         var userDto = modelMapper.map(user, UserDto.class);
 
         var accessToken = jwtService.generateAccessToken(user);

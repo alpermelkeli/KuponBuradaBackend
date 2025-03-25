@@ -26,12 +26,12 @@ public class NotificationServiceImpl implements NotificationService {
     private ModelMapper modelMapper;
 
     @Override
-    public Notification createNotification(NotificationRequest notificationRequest) {
+    public NotificationDTO createNotification(NotificationRequest notificationRequest) {
         if (notificationRequest == null) {
             throw new IllegalArgumentException("Notification request cannot be null");
         }
         User user = userRepository.findByUsername(notificationRequest.getUsername())
-                .orElseThrow(() -> new EntityNotFoundException("Coupon not found with id: " + notificationRequest.getUsername()));
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + notificationRequest.getUsername()));
 
         Notification notification = modelMapper.map(notificationRequest, Notification.class);
 
@@ -39,7 +39,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         notification = notificationRepository.save(notification);
 
-        return notification;
+        return modelMapper.map(notification, NotificationDTO.class);
     }
 
     @Override
