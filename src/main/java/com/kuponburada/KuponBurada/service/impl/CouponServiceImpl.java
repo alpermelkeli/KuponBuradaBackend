@@ -46,19 +46,19 @@ public class CouponServiceImpl implements CouponService {
     public CouponDTO getCouponById(Long id) {
         Coupon coupon = couponRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Coupon not found with id: " + id));
-        CouponDTO couponDTO = modelMapper.map(coupon, CouponDTO.class);
-        System.out.println("CategoryNames: " + coupon.getCategories().stream().map(Category::getName).toList());
-        return couponDTO;
+        return modelMapper.map(coupon, CouponDTO.class);
     }
 
     @Override
     public List<LastAddedCouponDTO> getLastAddedCoupons() {
-        Pageable pageable = PageRequest.of(0, 4);
+        Pageable pageable = PageRequest.of(0, 10);
         List<Coupon> lastAddedCoupons = couponRepository.findLastAddedCoupons(pageable);
 
         return lastAddedCoupons.stream()
                 .map(coupon -> {
-                    return modelMapper.map(coupon, LastAddedCouponDTO.class);
+                    LastAddedCouponDTO dto = modelMapper.map(coupon, LastAddedCouponDTO.class);
+                    dto.setCategory(coupon.getCategories().get(0).getName());
+                    return dto;
                 })
                 .collect(Collectors.toList());
     }

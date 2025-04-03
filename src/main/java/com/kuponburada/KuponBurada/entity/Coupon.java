@@ -3,6 +3,7 @@ package com.kuponburada.KuponBurada.entity;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.persistence.*;
@@ -63,8 +64,8 @@ public class Coupon {
     @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 
-    public Set<Category> getCategories() {
-        return brand != null ? brand.getCategories() : Set.of();
+    public List<Category> getCategories() {
+        return brand != null ? brand.getCategories().stream().toList() : List.of();
     }
 
     public enum DiscountType {
